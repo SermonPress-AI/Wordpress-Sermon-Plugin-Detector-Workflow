@@ -17,3 +17,4 @@ Each branch can then be used to customize automation steps specific to that plug
 * Detecting plugins without installing a custom plugin (to make it more user-friendly for church website admins)
 * Handling edge cases where a website uses multiple or none of the plugin options
 * Automatically fetching custom field and taxonomy information via REST API
+* Generalization to work with more websites (currently just connected to my Wordpress site)
