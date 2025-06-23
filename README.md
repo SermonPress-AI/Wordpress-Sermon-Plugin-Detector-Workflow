@@ -18,3 +18,6 @@ Each branch can then be used to customize automation steps specific to that plug
 * Handling edge cases where a website uses multiple or none of the plugin options
 * Automatically fetching custom field and taxonomy information via REST API
 * Generalization to work with more websites (currently just connected to my Wordpress site)
+
+## 📎 Deepgram Audio File Transcription Workflow
+This n8n workflow obtains an audio file from a given sermon uplaoded to Wordpress, and sends the file to Deepgram to be transciped. The last step of the workflow sends the transciption in an email so that it can be reviewed before continuing with the workflow.
