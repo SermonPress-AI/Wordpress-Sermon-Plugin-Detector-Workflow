@@ -48,4 +48,5 @@ The workflow uses the edit fields node to create the new fields and taxonoies re
 ### 🔨 Possible Improvements
 * The custom fields used by the Church Content plugin are not exposed to the REST api, and therefore I have not found a way to connect them to my workflow.
 * Using a node other than edit fields to add new details to the sermon
+* Differentiating between the pro and normal versions of sermon plugins
 
