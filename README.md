@@ -38,3 +38,14 @@ Then, my Sermon Plugin Detector is used to standardize the different fields from
 ### 🔨 Possible Improvements
 * Specify requests to OpenAI
 * More efficient method of allowing the user to edit the transcription
+
+## Sermon Plugin Detection Workflow Improved (work in progress)
+
+This workflow improves upon my previous sermon plugin detection workflow and creates the necessary fields for the specific custom fields and taxonomies of each plugin. It also allows the workflow to be triggered either manually or by a webhook call that sends the website as well as a list of active plugins. 
+
+The workflow uses the edit fields node to create the new fields and taxonoies required to make a sermon post through the specified plugin. It can differentiate between the Sermon Manager, Church Content, and Advanced Sermon plugins. 
+
+### 🔨 Possible Improvements
+* The custom fields used by the Church Content plugin are not exposed to the REST api, and therefore I have not found a way to connect them to my workflow.
+* Using a node other than edit fields to add new details to the sermon
+
