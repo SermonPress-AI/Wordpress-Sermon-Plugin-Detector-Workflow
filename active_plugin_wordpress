@@ -1,0 +1,42 @@
+<?php
+/*
+Plugin Name: Active Plugin List
+Description: Allows you to retrieve a list of active plugins via a REST API endpoint.
+Version: 1.1
+Author: ChatGPT
+*/
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'your-namespace/v1', '/plugins/', array(
+        'methods'  => 'GET',
+        'callback' => 'get_active_plugin_list',
+        'permission_callback' => function () {
+            return current_user_can('manage_options'); // only admins
+        }
+    ));
+});
+
+function get_active_plugin_list() {
+    if ( ! function_exists( 'get_plugins' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    $all_plugins = get_plugins();
+    $active_plugins = get_option( 'active_plugins', array() );
+    $plugin_list = array();
+
+    foreach ( $active_plugins as $plugin_file ) {
+        if ( isset( $all_plugins[ $plugin_file ] ) ) {
+            $plugin = $all_plugins[ $plugin_file ];
+            $plugin_list[] = array(
+                'name'        => $plugin['Name'],
+                'description' => $plugin['Description'],
+                'version'     => $plugin['Version'],
+                'author'      => $plugin['Author'],
+                'file'        => $plugin_file,
+            );
+        }
+    }
+
+    return new WP_REST_Response( $plugin_list, 200 );
+}
