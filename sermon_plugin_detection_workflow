@@ -1,0 +1,975 @@
+{
+  "name": "Sermon Plugin Detection",
+  "nodes": [
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        512
+      ],
+      "id": "81779280-8e91-4a45-a468-a0d8df381ff8",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.name }}",
+                    "rightValue": "Advanced Sermons",
+                    "operator": {
+                      "type": "array",
+                      "operation": "contains",
+                      "rightType": "any"
+                    },
+                    "id": "8d85b887-656c-48c2-9a4f-7caaa549ea9f"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4c64b38d-828f-4c43-8ca6-425c38d357eb",
+                    "leftValue": "={{ $json.name }}",
+                    "rightValue": "Church Content",
+                    "operator": {
+                      "type": "array",
+                      "operation": "contains",
+                      "rightType": "any"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e00f6823-8478-4223-9456-6a831bf0f6e0",
+                    "leftValue": "={{ $json.name }}",
+                    "rightValue": "Sermon Manager for WordPress",
+                    "operator": {
+                      "type": "array",
+                      "operation": "contains",
+                      "rightType": "any"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -464,
+        512
+      ],
+      "id": "19edb05f-1f56-46c7-9a49-0847fe94177f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.website }}/wp-json/your-namespace/v1/plugins/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1008,
+        304
+      ],
+      "id": "de70e13a-e700-4b37-a3dd-1c272e6b0732",
+      "name": "GET plugin list",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "w3lDIr718x5Qnprv",
+          "name": "Wordpress App. Password"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Determining plugin\n",
+        "height": 1220,
+        "width": 760,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -832,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "98e5a344-0391-4fc2-aee2-71b66216381e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1488,
+        304
+      ],
+      "id": "f7b37a0c-a545-4ebb-a768-6aec2975115b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "## Input: Wordpress Website\nYouTube first ",
+        "height": 280,
+        "width": 736,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1568,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "1dca69ee-2fb3-48bb-b1c3-643ceda1ad92",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c3001843-5e2a-46fd-8e48-2b5b42c819e1",
+              "name": "taxonomies",
+              "value": "={{ ['wpfc_preacher', 'wpfc_sermon_series', 'wpfc_sermon_topics', 'wpfc_bible_book', 'wpfc_service_type'] }}",
+              "type": "array"
+            },
+            {
+              "id": "39d97a72-0b81-497b-932c-aedf317ff855",
+              "name": "values",
+              "value": "={{ ['pastor test', 'mark', 'test', 'mark', 'morning'] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        800
+      ],
+      "id": "a723d58b-c872-4482-8da3-850e35406aac",
+      "name": "Sermon Manager taxonomies"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3997066f-9ca5-41a4-96f0-7c0dd50e4489",
+              "name": "custom fields",
+              "value": "={{  [ 'sermon_audio', 'sermon_audio_duration', 'bible_passage', 'sermon_video_embed', 'sermon_video_embed_url'] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        1008
+      ],
+      "id": "686d7ea6-a731-46dd-8f1c-644320769c70",
+      "name": "Sermon Manager custom fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9e16c76-682c-45da-b116-e6c62d0c37b6",
+              "name": "custom fields",
+              "value": "={{['_ctc_sermon_has_full_text', '_ctc_sermon_video', '_ctc_sermon_audio', '_ctc_sermon_pdf', '_ctc_sermon_podcast_exclude']}}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        608
+      ],
+      "id": "efdd0c07-d2b1-4388-b398-1eac75513524",
+      "name": "CTC Custom Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b963047f-ba30-4d90-a59b-e7776c21d9aa",
+              "name": "taxonomies",
+              "value": "={{ [ 'ctc_sermon_speaker' , 'ctc_sermon_series', 'ctc_sermon_topic', 'ctc_sermon_tag', 'ctc_sermon_book' ] }}",
+              "type": "array"
+            },
+            {
+              "id": "2afcb5d8-4e7f-413e-8d64-c9934741b8ad",
+              "name": "values",
+              "value": "={{ [ 'Pastor Test','Series Test','Sin','Test Tag', 'Mark' ] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        400
+      ],
+      "id": "cdf1fb7f-1b3b-44c6-970d-3c29f8f17152",
+      "name": "CTC Taxonomies"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "440b9717-c5d3-47b7-b702-ec29ba34df2e",
+              "name": "taxonomies",
+              "value": "={{ ['sermon_topics', 'sermon_book', 'sermon_series', 'sermon_speaker']  }}",
+              "type": "array"
+            },
+            {
+              "id": "d8776334-67fe-4868-98a4-6050a6166af2",
+              "name": "values",
+              "value": "={{ ['sin', 'mark', 'test', 'pastor_test'] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "7d54d959-940e-4243-b290-e634cacd54ba",
+      "name": "Advanced Sermons Taxonomies"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66ecf9b4-20eb-4192-bf22-2bf8afce3d00",
+              "name": "adv_custom_fields",
+              "value": "={{ ['asp_sermon_facebook', 'asp_sermon_mp4', 'asp_sermon_pdf', 'asp_sermon_soundcloud', 'asp_sermon_youtube', 'asp_sermon_youtube'] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        208
+      ],
+      "id": "e1321aa9-888b-4c85-b401-d0aa57384356",
+      "name": "Adv. Sermon Custom Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://charlottewolfe2025.mystagingwebsite.com/wp-json/wp/v2/ctc_sermon",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "test from n8n"
+            },
+            {
+              "name": "={{ $('CTC Taxonomies').item.json.taxonomies[0] }}"
+            },
+            {
+              "name": "={{ $('CTC Taxonomies').item.json.taxonomies[1] }}"
+            },
+            {
+              "name": "={{ $('CTC Taxonomies').item.json.taxonomies[2] }}"
+            },
+            {
+              "name": "={{ $('CTC Taxonomies').item.json.taxonomies[3] }}"
+            },
+            {
+              "name": "={{ $('CTC Taxonomies').item.json.taxonomies[4] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        688,
+        512
+      ],
+      "id": "aac24a2a-549a-4d7d-8966-3ebe23f5a905",
+      "name": "creating ctc test post",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "w3lDIr718x5Qnprv",
+          "name": "Wordpress App. Password"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://charlottewolfe2025.mystagingwebsite.com/wp-json/wp/v2/wpfc_sermon",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "test from n8n"
+            },
+            {
+              "name": "status",
+              "value": "draft"
+            },
+            {
+              "name": "={{ $('Sermon Manager taxonomies').item.json.taxonomies[0] }}"
+            },
+            {
+              "name": "={{ $('Sermon Manager taxonomies').item.json.taxonomies[1] }}"
+            },
+            {
+              "name": "={{ $('Sermon Manager taxonomies').item.json.taxonomies[2] }}"
+            },
+            {
+              "name": "={{ $('Sermon Manager taxonomies').item.json.taxonomies[3] }}"
+            },
+            {
+              "name": "={{ $('Sermon Manager taxonomies').item.json.taxonomies[4] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        704,
+        912
+      ],
+      "id": "209c9f6b-11cd-42bf-96e6-0a58dadd94d6",
+      "name": "creating sermon manager test post",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "w3lDIr718x5Qnprv",
+          "name": "Wordpress App. Password"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5eb59285-363d-42d1-80d3-69825e6a8e4e",
+              "name": "plugin",
+              "value": "Church Content",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        512
+      ],
+      "id": "61ffa195-69f1-4c1a-8547-04b1ed5fb3a7",
+      "name": "Church Content"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66c28626-f752-44d5-9d0f-3fcc5ac063b7",
+              "name": "plugin",
+              "value": "Sermon Manager",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        912
+      ],
+      "id": "6f072882-0585-4cf6-9201-e54a10e6974e",
+      "name": "Sermon Manager1"
+    },
+    {
+      "parameters": {
+        "content": "## Getting attributes from plugins\n",
+        "height": 1240,
+        "width": 920
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -64,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "8a55f2c3-c63a-4a86-bc79-1998fc591294",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        464,
+        192
+      ],
+      "id": "5133d1c1-0360-40af-8c4e-dbc14760a942",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "vmHZYCFMNywqbkXf",
+          "mode": "list",
+          "cachedResultName": "Taxonomy slug to ID"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        0
+      ],
+      "id": "61617bd9-01c7-4bcf-b374-cb5b87f00b78",
+      "name": "Execute Workflow",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "vmHZYCFMNywqbkXf",
+          "mode": "list",
+          "cachedResultName": "Taxonomy slug to ID"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        400
+      ],
+      "id": "83ecb7e5-358c-4635-9332-75efbaf306b5",
+      "name": "Execute Workflow1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        464,
+        512
+      ],
+      "id": "42c94eea-7066-48bc-8429-db274b032859",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "vmHZYCFMNywqbkXf",
+          "mode": "list",
+          "cachedResultName": "Taxonomy slug to ID"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        800
+      ],
+      "id": "838a32bb-ea68-461d-97ca-0f5f7009bcd9",
+      "name": "Execute Workflow2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        464,
+        912
+      ],
+      "id": "b3144300-5812-4729-93e4-59f982bbebe2",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0d30ebb9-66df-4693-adc5-e36248f92a36",
+              "name": "plugin",
+              "value": "Advanced Sermons",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        112
+      ],
+      "id": "b3dc2756-6d51-40ef-89cc-896b6e31c5a8",
+      "name": "Advanced Sermons"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6c293196-e7e9-4629-a46a-ce674b9479a2",
+              "name": "website",
+              "value": "https://charlottewolfe2025.mystagingwebsite.com",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1264,
+        304
+      ],
+      "id": "93766730-e7be-4ab9-a2a4-a7b7ffc815af",
+      "name": "Creating Website field"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://charlottewolfe2025.mystagingwebsite.com/wp-json/wp/v2/sermons",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "Test from n8n"
+            },
+            {
+              "name": "={{ $('Advanced Sermons Taxonomies').item.json.taxonomies[0] }}",
+              "value": "={{ $json.taxonomy_ids[0] }}"
+            },
+            {
+              "name": "={{ $('Advanced Sermons Taxonomies').item.json.taxonomies[1] }}",
+              "value": "={{ $json.taxonomy_ids[1] }}"
+            },
+            {
+              "name": "={{ $('Advanced Sermons Taxonomies').item.json.taxonomies[2] }}",
+              "value": "={{ $json.taxonomy_ids[2] }}"
+            },
+            {
+              "name": "={{ $('Advanced Sermons Taxonomies').item.json.taxonomies[3] }}",
+              "value": "={{ $json.taxonomy_ids[3] }}"
+            },
+            {
+              "name": "={{ $('Adv. Sermon Custom Fields').all()[0].json.adv_custom_fields[4] }}\n",
+              "value": "https://www.youtube.com/watch?v=0ERms_W2xgw"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        672,
+        192
+      ],
+      "id": "f8bd8857-8fb1-4b40-9b1a-e553797fc33d",
+      "name": "creating adv. sermons test post",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "w3lDIr718x5Qnprv",
+          "name": "Wordpress App. Password"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Advanced Sermons",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Church Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sermon Manager1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET plugin list": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Creating Website field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sermon Manager taxonomies": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sermon Manager custom fields": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "CTC Custom Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "CTC Taxonomies": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Advanced Sermons Taxonomies": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adv. Sermon Custom Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Church Content": {
+      "main": [
+        [
+          {
+            "node": "CTC Taxonomies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "CTC Custom Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sermon Manager1": {
+      "main": [
+        [
+          {
+            "node": "Sermon Manager taxonomies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Sermon Manager custom fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow2": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Advanced Sermons": {
+      "main": [
+        [
+          {
+            "node": "Advanced Sermons Taxonomies",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Adv. Sermon Custom Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "creating adv. sermons test post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "creating ctc test post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "creating sermon manager test post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Creating Website field": {
+      "main": [
+        [
+          {
+            "node": "GET plugin list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "creating adv. sermons test post": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9ad7a5ef-9d69-4f95-89bb-1b0e0f11b180",
+  "meta": {
+    "instanceId": "f318f1eeb582bef69a56797ad1f28184a54cfe51b0e461ee190c5740946ea07e"
+  },
+  "id": "o5GL1jhB9GRHitQQ",
+  "tags": []
+}
