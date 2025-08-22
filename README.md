@@ -13,6 +13,10 @@ From this list, the workflow branches into three tracks based on the detected pl
 
 Each branch can then be used to customize automation steps specific to that plugin's custom fields and taxonomies.
 
+### Set-Up Instructions
+1. Download the active-plugins-list Plugin and install on Wordpress site.
+2. Create a Wordpress credential in n8n
+
 ### ⬅️ Inputs
 * Website name
 * Taxonomy values (pastor, sermon series, sermon book, etc.)
@@ -23,4 +27,5 @@ Each branch can then be used to customize automation steps specific to that plug
 ### 🔨 Possible Improvements
 * Creates a field for custom fields but doesn't assign them to the post
 * Doesn't detect if a user is using the Pro version of a plugin
+
 
